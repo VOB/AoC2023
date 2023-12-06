@@ -10,6 +10,7 @@ public class Day1 {
     TextParser textParser = new TextParser();
     List<String> input;
     String[] digits = {"one", "two", "three", "four", "five", "six", "seven", "eight", "nine"};
+    String[] reverseDigits = {"eno", "owt", "eerht", "rouf", "evif", "xis", "neves", "thgie", "enin"};
 
     public Day1() {
         input = textParser.lines("src/main/Day1");
@@ -26,30 +27,28 @@ public class Day1 {
     public int part2() {
         int sum = 0;
         for (String line : input) {
-            sum = sum + extractDecodedNumberFromLine(line);
+            sum = sum + extractNumberFromLine(decodeLine(line, ""));
         }
         return sum;
 
     }
 
-    public String decodeLine(String line) {
+    public String decodeLine(String line, String decodedLine) {
+        if (line.equals("")) {
+            return decodedLine;
+        }
         for (String digit : digits) {
-            if(line.contains(digit)) {
-                String newLine = line.replaceFirst(digit, "" + Digit.valueOf(digit).value);
-                return decodeLine(newLine);
+            if (Character.isDigit(line.charAt(0))) {
+                decodedLine = decodedLine+line.charAt(0);
+                return decodeLine(line.substring(1), decodedLine);
             }
-        };
-        return line;
-    }
+            if (line.startsWith(digit)) {
+                decodedLine = decodedLine + Digit.valueOf(digit).value;
+                return decodeLine(line.substring(1), decodedLine);
+            }
+        }
 
-    public String decodeReverseLine(String line) {
-        for (String digit : digits) {
-            if(line.contains(reverseString(digit))) {
-                String newLine = line.replaceFirst(reverseString(digit), reverseString("" + Digit.valueOf(digit).value));
-                return decodeReverseLine(newLine);
-            }
-        };
-        return line;
+        return decodeLine(line.substring(1), decodedLine);
     }
 
     public int extractNumberFromLine(String line) {
@@ -57,10 +56,6 @@ public class Day1 {
                 findFirstNumberAsChar(reverseString(line)));
     }
 
-    public int extractDecodedNumberFromLine(String line) {
-        return Integer.parseInt(String.valueOf(findFirstNumberAsChar(decodeLine(line))) +
-                findFirstNumberAsChar(decodeReverseLine(reverseString(line))));
-    }
     private char findFirstNumberAsChar (String line) {
         char[] chars = line.toCharArray();
         for (char c : chars) {
