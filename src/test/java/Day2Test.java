@@ -9,4 +9,9 @@ public class Day2Test {
     public void day2Part1() {
         Assertions.assertEquals(2416, day2.part1());
     }
+
+    @Test
+    public void day2Part2() {
+        Assertions.assertEquals(63307, day2.part2());
+    }
 }

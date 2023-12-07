@@ -18,6 +18,44 @@ public class Day2 {
         return sum;
     }
 
+    public int part2() {
+        int sum = 0;
+        for (String line : input) {
+            sum += sumOfAllPowers(line);
+        }
+        return sum;
+    }
+
+    public int sumOfAllPowers(String line) {
+        int red = 0;
+        int blue = 0;
+        int green = 0;
+
+        String allRounds = line.split(": ")[1];
+        for (String round : allRounds.split(";")) {
+            String[] sortedCubes = round.split(",");
+            for (String singleColorCubes : sortedCubes ) {
+                if (singleColorCubes.contains("blue")) {
+                    if (blue < cubeCount(singleColorCubes, "blue")) {
+                        blue = cubeCount(singleColorCubes, "blue");
+                    }
+                }
+                if (singleColorCubes.contains("red")) {
+                    if (red < cubeCount(singleColorCubes, "red")) {
+                        red = cubeCount(singleColorCubes, "red");
+                    }
+                }
+                if (singleColorCubes.contains("green")) {
+                    if (green < cubeCount(singleColorCubes, "green")) {
+                        green = cubeCount(singleColorCubes, "green");
+                    }
+                }
+            }
+        }
+
+        return red * blue * green;
+    }
+
     private int sumOfAllPossibleGameIds(String line) {
         if (playOneGame(line)) {
             return extractGameId(line);
@@ -33,7 +71,7 @@ public class Day2 {
 
     private boolean playOneGame(String line) {
         String allRounds = line.split(": ")[1];
-        for( String round : allRounds.split(";")) {
+        for (String round : allRounds.split(";")) {
             if (!roundIsPossible(round)) {
                 return false;
             }
