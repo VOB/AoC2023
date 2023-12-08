@@ -10,7 +10,6 @@ public class Day1 {
     TextParser textParser = new TextParser();
     List<String> input;
     String[] digits = {"one", "two", "three", "four", "five", "six", "seven", "eight", "nine"};
-    String[] reverseDigits = {"eno", "owt", "eerht", "rouf", "evif", "xis", "neves", "thgie", "enin"};
 
     public Day1() {
         input = textParser.lines("src/main/Day1");
