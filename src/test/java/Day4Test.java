@@ -9,4 +9,15 @@ public class Day4Test {
     public void day4Part1() {
         Assertions.assertEquals(24733, day4.part1());
     }
+
+    @Test
+    public void day4Part2() {
+        Assertions.assertEquals(5422730, day4.part2());
+    }
+
+    @Test
+    public void day4Part2Test() {
+        Day4 day4Test = new Day4("src/main/Day4Part2Test");
+        Assertions.assertEquals(30, day4Test.part2());
+    }
 }
