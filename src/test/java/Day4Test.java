@@ -17,7 +17,7 @@ public class Day4Test {
 
     @Test
     public void day4Part2Test() {
-        Day4 day4Test = new Day4("src/main/Day4Part2Test");
+        Day4 day4Test = new Day4("src/main/Day4Test");
         Assertions.assertEquals(30, day4Test.part2());
     }
 }
