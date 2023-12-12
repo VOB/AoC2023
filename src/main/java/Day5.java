@@ -31,12 +31,40 @@ public class Day5 {
         return lowestLocation;
     }
 
-    public List<BigInteger> extractSeeds() {
-        List<String> seeds = Arrays.asList(input.get(0).get(0).split(": ")[1].split(" "));
-        return seeds.stream()
-                .map(String::trim)
-                .map(BigInteger::new)
-                .collect(Collectors.toList());
+    public BigInteger part2() {
+        List<BigInteger> seeds = extractSeeds();
+
+        BigInteger lowestLocation = BigInteger.ZERO;
+        for (int i = 0; i < seeds.size(); i+=2) {
+            BigInteger seed = seeds.get(i);
+            BigInteger range = seeds.get(i+1);
+            System.out.println("getting lowest for " + seed + " with range " + range);
+            BigInteger lowestLocationForRange = getLowestLocationNumberForRange(seed, range);
+            System.out.println(lowestLocationForRange);
+            if (lowestLocation.equals(BigInteger.ZERO)) {
+                lowestLocation = lowestLocationForRange;
+            } else if (lowestLocationForRange.compareTo(lowestLocation) < 0) {
+                lowestLocation = lowestLocationForRange;
+            }
+        }
+        return lowestLocation;
+    }
+
+    public BigInteger getLowestLocationNumberForRange(BigInteger seed, BigInteger range) {
+        BigInteger lowestLocation = BigInteger.ZERO;
+
+        BigInteger iterator = BigInteger.ZERO;
+        while (iterator.compareTo(range) < 0) {
+            BigInteger locationNumber = getLocationNumber(seed.add(iterator));
+            if (lowestLocation.equals(BigInteger.ZERO)) {
+                lowestLocation = locationNumber;
+            } else if (locationNumber.compareTo(lowestLocation) < 0) {
+                lowestLocation = locationNumber;
+                System.out.println(locationNumber);
+            }
+            iterator = iterator.add(BigInteger.ONE);
+        }
+        return lowestLocation;
     }
 
     public BigInteger getLocationNumber(BigInteger seed) {
@@ -63,6 +91,14 @@ public class Day5 {
 
 
         return previous;
+    }
+
+    public List<BigInteger> extractSeeds() {
+        List<String> seeds = Arrays.asList(input.get(0).get(0).split(": ")[1].split(" "));
+        return seeds.stream()
+                .map(String::trim)
+                .map(BigInteger::new)
+                .collect(Collectors.toList());
     }
 
     private List<BigInteger> extractFields(String mapping) {

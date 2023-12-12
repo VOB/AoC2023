@@ -19,8 +19,25 @@ public class Day5Test {
     }
 
     @Test
+    public void day5Part2() {
+        System.out.println(day5.part2());
+    }
+
+    @Test
+    public void day5Part2Test() {
+        Day5 day5Test = new Day5("src/main/Day5Test");
+        Assertions.assertEquals(BigInteger.valueOf(46), day5Test.part2());
+    }
+
+    @Test
     public void verifyLowestLocationNumberInTest() {
         Day5 day5Test = new Day5("src/main/Day5Test");
         Assertions.assertEquals(BigInteger.valueOf(35), day5Test.part1());
+    }
+
+    @Test
+    public void verifyLowestLocationForRangePair() {
+        Day5 day5Test = new Day5("src/main/Day5Test");
+        Assertions.assertEquals(BigInteger.valueOf(46), day5Test.getLowestLocationNumberForRange(BigInteger.valueOf(79), BigInteger.valueOf(14)));
     }
 }
