@@ -10,6 +10,7 @@ public class Day7 {
     }
 
     public int part1() {
+
         return 0;
     }
 
@@ -71,14 +72,14 @@ public class Day7 {
                 }
             } else {
                 //possible: three of a kind, one pair, high card
-                subHand = getSubHand(hand);
+                subHand = getSubHand(subHand);
                 subHandCount = countCardsInHand(subHand);
                 if (subHandCount == 3) {
                     return 4; //three of a kind
                 } else if (subHandCount == 2) {
                     return 2; //one pair
                 } else {
-                    subHand = getSubHand(hand);
+                    subHand = getSubHand(subHand);
                     subHandCount = countCardsInHand(subHand);
                     if (subHandCount == 2) {
                         return 2; //one pair

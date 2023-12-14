@@ -34,7 +34,12 @@ public class Day7Test {
         Assertions.assertEquals(5, day7.handType("A33AA"));
         Assertions.assertEquals(4, day7.handType("A23AA"));
         Assertions.assertEquals(3, day7.handType("AAKK3"));
+        Assertions.assertEquals(3, day7.handType("3AAKK"));
         Assertions.assertEquals(2, day7.handType("AAK53"));
+        Assertions.assertEquals(2, day7.handType("KAA53"));
+        Assertions.assertEquals(2, day7.handType("KAA53"));
+        Assertions.assertEquals(2, day7.handType("KQAA3"));
+        Assertions.assertEquals(2, day7.handType("KQ5AA"));
         Assertions.assertEquals(1, day7.handType("2345K"));
 
     }
