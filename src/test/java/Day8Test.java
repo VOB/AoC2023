@@ -7,7 +7,7 @@ public class Day8Test {
 
     @Test
     public void Day8Part1() {
-        System.out.println(day8.part1());
+        Assertions.assertEquals(19783, day8.part1());
     }
 
     @Test

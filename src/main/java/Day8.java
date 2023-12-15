@@ -26,8 +26,8 @@ public class Day8 {
     }
 
     public int part1() {
-        String currentNode = input.get(1).get(0).split(" =")[0];
-        String endNode = input.get(1).get(input.get(1).size()-1).split(" =")[0];
+        String currentNode = "AAA";
+        String endNode = "ZZZ";
         int steps = 0;
         int iterator = 0;
         while (!currentNode.equals(endNode)) {
