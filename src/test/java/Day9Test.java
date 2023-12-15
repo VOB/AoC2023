@@ -7,7 +7,7 @@ public class Day9Test {
 
     @Test
     public void Day9Part1() {
-        System.out.println(day9.part1());
+        Assertions.assertEquals(2174807968L, day9.part1());
     }
 
     @Test
@@ -24,6 +24,11 @@ public class Day9Test {
 
     @Test
     public void Day9Part2() {
-        System.out.println(day9.part2());
+        Assertions.assertEquals(1208L, day9.part2());
+    }
+
+    @Test
+    public void extrapolateHistoryBeginningTest() {
+        Assertions.assertEquals(5, day9.extrapolateHistoryBeginning("10 13 16 21 30 45"));
     }
 }

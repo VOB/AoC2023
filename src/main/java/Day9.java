@@ -1,5 +1,6 @@
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 public class Day9 {
@@ -46,6 +47,18 @@ public class Day9 {
     }
 
     public long part2() {
-        return 0;
+        long extrapolatedValueSum = 0;
+        for (String line : input) {
+            extrapolatedValueSum += extrapolateHistoryBeginning(line);
+        }
+
+        return extrapolatedValueSum;
+    }
+
+    public long extrapolateHistoryBeginning(String line) {
+        List<Long> history = new ArrayList<>(Arrays.stream(line.split(" ")).map(Long::parseLong).toList());
+
+        Collections.reverse(history);
+        return findNextHistoryValue(history);
     }
 }
