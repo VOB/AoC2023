@@ -1,3 +1,4 @@
+import java.util.LinkedList;
 import java.util.List;
 
 public class Day7 {
@@ -10,16 +11,64 @@ public class Day7 {
     }
 
     public int part1() {
+        LinkedList<String> sortedHandList = new LinkedList<>();
 
-        return 0;
+        for (String line : input) {
+            insertHandInSortedList(line, sortedHandList);
+        }
+
+        int totalWinnings = 0;
+        for (int i=0; i<sortedHandList.size(); i++) {
+            int bet = Integer.parseInt(sortedHandList.get(i).split(" ")[1]);
+            totalWinnings += bet*(i+1);
+        }
+
+        return totalWinnings;
     }
 
     public int part2() {
         return 0;
     }
 
+    private LinkedList<String> insertHandInSortedList(String line, LinkedList<String> sortedList) {
+        String newHand = line.split(" ")[0];
+
+        for (int i=0; i<sortedList.size(); i++) {
+            String sortedHand = sortedList.get(i).split(" ")[0];
+
+            if (handComparator(newHand, sortedHand) < 1) {
+                sortedList.add(i, line);
+                return sortedList;
+            }
+        }
+
+        //sortedList is empty
+        sortedList.add(line);
+        return sortedList;
+    }
+
+    //returns 1 if hand1 > hand2, -1 if hand2 > hand1, else 0
+    public int handComparator(String hand1, String hand2) {
+
+        if (getHandType(hand1) < getHandType(hand2)) {
+            return -1;
+        }
+        if (getHandType(hand1) > getHandType(hand2)) {
+            return 1;
+        }
+
+        for (int i=0; i < 5; i++) {
+            if (cardStrength(hand1.charAt(i)) < cardStrength(hand2.charAt(i))) {
+                return -1;
+            } else if (cardStrength(hand1.charAt(i)) > cardStrength(hand2.charAt(i))) {
+                return 1;
+            }
+        }
+        return 0;
+    }
+
     //High card returns 1, Five of a kind returns 7.
-    public int handType(String hand) {
+    public int getHandType(String hand) {
 
         int countCards = countCardsInHand(hand);
         if (countCards == 5) {
