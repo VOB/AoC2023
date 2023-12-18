@@ -20,4 +20,10 @@ public class Day8Test {
     public void Day8Part2() {
         System.out.println(day8.part2());
     }
+
+    @Test
+    public void Day8Part2Test() {
+        Day8 day8Test = new Day8("src/main/Day8Test2");
+        Assertions.assertEquals(6, day8Test.part2());
+    }
 }
