@@ -33,28 +33,23 @@ public class Day8 {
         return stepsToEnd(startNode, endNode);
     }
 
-    public int part2() {
-        List<String> startNodes = new ArrayList<>();
-        List<String> endNodes = new ArrayList<>();
-
-        startNodes = nodes.keySet().stream()
-                .filter(node -> node.charAt(2) == 'A')
-                .collect(Collectors.toList());
-        endNodes = nodes.keySet().stream()
-                .filter(node -> node.charAt(2) == 'Z')
-                .collect(Collectors.toList());
+    public long part2() {
+        List<String> startNodes = nodes.keySet().stream()
+                .filter(node -> node.charAt(2) == 'A').toList();
+        List<String> endNodes = nodes.keySet().stream()
+                .filter(node -> node.charAt(2) == 'Z').toList();
 
         List<Integer> stepsForEach = new ArrayList<>();
         for (String startNode : startNodes) {
             stepsForEach.add(stepsToEnd(startNode, endNodes));
         }
 
-        int leastCommonMultiplier = 1;
+        long leastCommonMultiplier = 1;
         for (Integer steps : stepsForEach) {
             leastCommonMultiplier = lcm(steps, leastCommonMultiplier);
         }
 
-        return 0;
+        return leastCommonMultiplier;
     }
 
     private int stepsToEnd(String startNode, List<String> endNode) {
@@ -80,15 +75,15 @@ public class Day8 {
         return steps;
     }
 
-    private int lcm(int number1, int number2) {
+    private long lcm(long number1, long number2) {
         if (number1 == 0 || number2 == 0) {
             return 0;
         }
-        int absNumber1 = Math.abs(number1);
-        int absNumber2 = Math.abs(number2);
-        int absHigherNumber = Math.max(absNumber1, absNumber2);
-        int absLowerNumber = Math.min(absNumber1, absNumber2);
-        int lcm = absHigherNumber;
+        long absNumber1 = Math.abs(number1);
+        long absNumber2 = Math.abs(number2);
+        long absHigherNumber = Math.max(absNumber1, absNumber2);
+        long absLowerNumber = Math.min(absNumber1, absNumber2);
+        long lcm = absHigherNumber;
         while (lcm % absLowerNumber != 0) {
             lcm += absHigherNumber;
         }

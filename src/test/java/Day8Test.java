@@ -18,7 +18,7 @@ public class Day8Test {
 
     @Test
     public void Day8Part2() {
-        System.out.println(day8.part2());
+        Assertions.assertEquals(9177460370549L, day8.part2());
     }
 
     @Test
