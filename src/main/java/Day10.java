@@ -36,7 +36,26 @@ public class Day10 {
     }
 
     public int part2() {
-        return 0;
+        List<Point> positions = collectPositions(input);
+        List<String> loopMatcher = new ArrayList<>();
+        loopMatcher.add("F");
+        loopMatcher.add("7");
+        loopMatcher.add("|");
+        loopMatcher.add("S");
+        int enclosedByLoop = 0;
+        boolean insideLoop = false;
+        for (int i=0; i<input.length; i++) {
+            for (int j=0; j<input[i].length; j++) {
+                Point pointMatcher = new Point(i, j);
+                if (positions.stream().anyMatch(pointMatcher::equals) && loopMatcher.contains("" + input[i][j])) {
+                    insideLoop = !insideLoop;
+                }
+                if (insideLoop && positions.stream().noneMatch(pointMatcher::equals)) {
+                    enclosedByLoop++;
+                }
+            }
+        }
+        return enclosedByLoop;
     }
 
     protected List<Point> collectPositions(char[][] input) {

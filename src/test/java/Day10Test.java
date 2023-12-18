@@ -10,18 +10,18 @@ public class Day10Test {
 
     @Test
     public void Day10Part1() {
-        System.out.println(day10.part1());
+        Assertions.assertEquals(6815, day10.part1());
     }
 
     @Test
     public void Day10Part2() {
-        System.out.println(day10.part2());
+        Assertions.assertEquals(269, day10.part2());
     }
 
     @Test
     public void Day10Part1Test() {
         Day10 day10Test = new Day10("src/main/Day10Test");
-        System.out.println(day10Test.part1());
+        Assertions.assertEquals(4, day10Test.part1());
     }
 
     @Test
@@ -34,5 +34,11 @@ public class Day10Test {
             actualPath.append(day10Test.input[point.x][point.y]);
         }
         Assertions.assertEquals(path, actualPath.toString());
+    }
+
+    @Test
+    public void Day10Part2Test() {
+        Day10 day10Test = new Day10("src/main/Day10Test");
+        Assertions.assertEquals(1, day10Test.part2());
     }
 }
