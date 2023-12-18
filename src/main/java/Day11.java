@@ -20,7 +20,7 @@ public class Day11 {
     private void expandGalaxy() {
         for (int i=input.size()-1; i>=0; i--) {
             if (!input.get(i).contains("#")) {
-                input.add(i, input.get(i));
+                input.set(i, input.get(i).replaceAll("\\.", "x"));
             }
         }
         for (int i=input.get(0).length()-1; i>=0; i--) {
@@ -36,12 +36,33 @@ public class Day11 {
         }
         List<String> newInput = new ArrayList<>();
         for (String s : input) {
-            newInput.add(s.substring(0, column) + '.' + s.substring(column));
+            newInput.add(s.substring(0, column) + 'x' + s.substring(column+1));
         }
         input = newInput;
     }
+    public long part1() {
+        return getSumOfDistanceBetweenGalaxies(2);
+    }
 
-    public int part1() {
+    public long part2() {
+        return getSumOfDistanceBetweenGalaxies(1000000);
+    }
+
+    public long getSumOfDistanceBetweenGalaxies(long spaceModifier) {
+        List<Point> galaxyLocations = addGalaxyLocations();
+
+        long sumOfLengths = 0;
+        for (int i=0; i<galaxyLocations.size(); i++) {
+            Point current = galaxyLocations.get(i);
+            for (int j=i+1; j<galaxyLocations.size(); j++) {
+                Point other = galaxyLocations.get(j);
+                sumOfLengths += distanceBetweenGalaxies(current, other, spaceModifier);
+            }
+        }
+        return sumOfLengths;
+    }
+
+    private List<Point> addGalaxyLocations() {
         List<Point> galaxyLocations = new ArrayList<>();
         for (int i=0; i<input.size(); i++) {
             for (int j=0; j<input.get(0).length(); j++) {
@@ -50,34 +71,44 @@ public class Day11 {
                 }
             }
         }
+        return galaxyLocations;
+    }
 
-        int sumOfLengths = 0;
-        for (int i=0; i<galaxyLocations.size(); i++) {
-            Point current = galaxyLocations.get(i);
-            for (int j=i+1; j<galaxyLocations.size(); j++) {
-                Point other = galaxyLocations.get(j);
-                sumOfLengths += distanceBetweenGalaxies(current, other);
+    private long distanceBetweenGalaxies(Point current, Point other, long spaceModifier) {
+        long distance = 0;
+        int xDistance = Math.abs(current.x - other.x);
+        int yDistance = Math.abs(current.y - other.y);
+
+        int stepper = current.x;
+        while (xDistance > 0) {
+            if (input.get(stepper).charAt(current.y) == 'x') {
+                distance += spaceModifier;
+            } else {
+                distance++;
             }
+            if (stepper < other.x) {
+                stepper++;
+            } else if (stepper > other.y){
+                stepper--;
+            }
+            xDistance--;
         }
-        return sumOfLengths;
-    }
 
-    private int distanceBetweenGalaxies(Point current, Point other) {
-        int distance = 0;
-        if (current.x < other.x) {
-            distance = other.x - current.x;
-        } else {
-            distance = current.x - other.x;
+        stepper = current.y;
+        while (yDistance > 0) {
+            if (input.get(current.x).charAt(stepper) == 'x') {
+                distance += spaceModifier;
+            } else {
+                distance++;
+            }
+            if (stepper < other.y) {
+                stepper++;
+            } else if (stepper > other.y){
+                stepper--;
+            }
+            yDistance--;
         }
-        if (current.y < other.y) {
-            distance += other.y - current.y;
-        } else {
-            distance += current.y - other.y;
-        }
+
         return distance;
-    }
-
-    public int part2() {
-        return 0;
     }
 }
