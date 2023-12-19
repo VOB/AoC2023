@@ -23,31 +23,31 @@ public class Day6 {
         int marginOfError = 1;
 
         for (int i = 0; i < times.size(); i++) {
-            marginOfError *= getNumberOfPossibleWaysToWin(BigInteger.valueOf(times.get(i)), BigInteger.valueOf(distances.get(i)));
+            marginOfError *= getNumberOfPossibleWaysToWin(times.get(i), distances.get(i));
         }
 
         return marginOfError;
     }
 
     public int part2() {
-        BigInteger time = new BigInteger(input.get(0).split(": ")[1].replaceAll("\\s", ""));
-        BigInteger distance = new BigInteger(input.get(1).split(": ")[1].replaceAll("\\s", ""));
+        long time = Long.parseLong(input.get(0).split(": ")[1].replaceAll("\\s", ""));
+        long distance = Long.parseLong(input.get(1).split(": ")[1].replaceAll("\\s", ""));
 
         return getNumberOfPossibleWaysToWin(time, distance);
     }
 
-    public int getNumberOfPossibleWaysToWin(BigInteger raceTime, BigInteger recordDistance) {
+    public int getNumberOfPossibleWaysToWin(long raceTime, long recordDistance) {
 
         int possibleWays = 0;
 
-        BigInteger buttonHeld = BigInteger.ZERO;
+        long buttonHeld = 0;
 
-        while (buttonHeld.compareTo(raceTime) < 0) {
-            BigInteger distance = buttonHeld.multiply(raceTime.subtract(buttonHeld));
-            if (recordDistance.compareTo(distance) < 0) {
+        while (buttonHeld < raceTime) {
+            long distance = buttonHeld * (raceTime-buttonHeld);
+            if (recordDistance < distance) {
                 possibleWays++;
             }
-            buttonHeld = buttonHeld.add(BigInteger.ONE);
+            buttonHeld++;
         }
 
         return possibleWays;

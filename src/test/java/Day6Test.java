@@ -15,9 +15,4 @@ public class Day6Test {
     public void day6Part2() {
         Assertions.assertEquals(43364472, day6.part2());
     }
-
-    @Test
-    public void singleRace() {
-        System.out.println(day6.getNumberOfPossibleWaysToWin(BigInteger.valueOf(7), BigInteger.valueOf(9)));
-    }
 }
