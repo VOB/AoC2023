@@ -1,5 +1,7 @@
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class Day4 {
 
@@ -18,7 +20,7 @@ public class Day4 {
         int sum = 0;
 
         for (String line : input) {
-            sum += calculateCardPoints(line.split(": ")[1]);
+            sum += calculateCardPoints(line);
         }
 
         return sum;
@@ -35,47 +37,36 @@ public class Day4 {
     }
 
     public int part2() {
-        int amountOfCards = 0;
+        List<Integer> cards = input.stream().map(this::getCardIndex).collect(Collectors.toList());
+        List<Integer> matchesForCard = input.stream().map(this::getMatchesForCard).toList();
 
-        for (int i=0; i<input.size(); i++) {
-            amountOfCards++;
-            amountOfCards += calculateCardsWon(i);
+        for (int i=0; i<cards.size(); i++) {
+            int cardMatches = matchesForCard.get(cards.get(i)-1);
+            while (cardMatches > 0) {
+                cards.add(cards.get(i)+cardMatches);
+                cardMatches--;
+            }
         }
-
-        return amountOfCards;
+        return cards.size();
     }
 
-    private int calculateCardsWon(int index) {
-        return calculateCardsWon(index, 0);
-    }
-
-    private int calculateCardsWon(int index, int totalSum) {
-        int cardMatches = getMatchesForCard(input.get(index).split(": ")[1]);
-        totalSum += cardMatches;
-
-        index++;
-        int count = 0;
-        while (index < input.size() && count < cardMatches) {
-            totalSum += calculateCardsWon(index, 0);
-            index++;
-            count++;
-        }
-
-        return totalSum;
-    }
-
-    private int getMatchesForCard(String line) {
+    private int getMatchesForCard(String card) {
         int totalMatches = 0;
-        List<Integer> winningNumbers = extractNumbers(line.split("\\|")[0]);
-        List<Integer> numbersYouHave = extractNumbers(line.split("\\|")[1]);
+        int lineIndex = getCardIndex(card);
+        List<Integer> winningNumbers = extractNumbers(card.split(": ")[1].split("\\|")[0]);
+        List<Integer> numbersYouHave = extractNumbers(card.split(": ")[1].split("\\|")[1]);
 
         for (int winningNumber : winningNumbers) {
-            if (numbersYouHave.contains(winningNumber)) {
+            if (numbersYouHave.contains(winningNumber) && totalMatches < input.size()-lineIndex) {
                 totalMatches++;
             }
         }
 
         return totalMatches;
+    }
+
+    private int getCardIndex(String card) {
+        return Integer.parseInt(card.split("Card ")[1].trim().split(": ")[0]);
     }
 
     private List<Integer> extractNumbers(String numberString) {
