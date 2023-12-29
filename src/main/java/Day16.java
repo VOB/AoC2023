@@ -31,9 +31,46 @@ public class Day16 {
     }
 
     public int part1() {
-
         traverseSquares(0, 0, EAST);
+        return getEnergizedLocationsCount();
+    }
 
+    public int part2() {
+
+        int maxEnergized = 0;
+        for (int i=0; i<input.length; i++) {
+            traverseSquares(i, 0, EAST);
+            if (maxEnergized < getEnergizedLocationsCount()) {
+                maxEnergized = getEnergizedLocationsCount();
+            }
+            energizedVectors = new HashSet<>();
+        }
+        for (int i=0; i<input.length; i++) {
+            traverseSquares(i, input.length-1, WEST);
+            if (maxEnergized < getEnergizedLocationsCount()) {
+                maxEnergized = getEnergizedLocationsCount();
+            }
+            energizedVectors = new HashSet<>();
+        }
+        for (int j=0; j<input[0].length; j++) {
+            traverseSquares(0, j, SOUTH);
+            if (maxEnergized < getEnergizedLocationsCount()) {
+                maxEnergized = getEnergizedLocationsCount();
+            }
+            energizedVectors = new HashSet<>();
+        }
+        for (int j=0; j<input[0].length; j++) {
+            traverseSquares(input[0].length-1, j, NORTH);
+            if (maxEnergized < getEnergizedLocationsCount()) {
+                maxEnergized = getEnergizedLocationsCount();
+            }
+            energizedVectors = new HashSet<>();
+        }
+
+        return maxEnergized;
+    }
+
+    private int getEnergizedLocationsCount() {
         List<Point> energizedLocations = new ArrayList<>();
         for (Vector vector : energizedVectors) {
             Point point = new Point(vector.x, vector.y);
@@ -42,12 +79,7 @@ public class Day16 {
                 energizedLocations.add(point);
             }
         }
-
         return energizedLocations.size();
-    }
-
-    public int part2() {
-        return 0;
     }
 
     private void traverseSquares(int x, int y, Point direction) {
