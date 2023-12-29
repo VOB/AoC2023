@@ -9,8 +9,14 @@ public class Day16Test {
         System.out.println(day16.part1());
     }
 
-    @Test
+    //@Test
     public void Day16Part2() {
-        System.out.println(day16.part2());
+    //    System.out.println(day16.part2());
+    }
+
+    @Test
+    public void Day16Part1Test() {
+        Day16 day16Test = new Day16("src/main/Day16Test");
+        System.out.println(day16Test.part1());
     }
 }
