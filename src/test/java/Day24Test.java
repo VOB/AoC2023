@@ -4,12 +4,12 @@ public class Day24Test {
 
     Day24 day24 = new Day24();
 
-    @Test
+    //@Test
     public void Day24Part1() {
         System.out.println(day24.part1());
     }
 
-    @Test
+    //@Test
     public void Day24Part2() {
         System.out.println(day24.part2());
     }
