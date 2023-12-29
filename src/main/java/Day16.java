@@ -1,8 +1,6 @@
 import java.awt.*;
-import java.util.ArrayList;
-import java.util.HashSet;
+import java.util.*;
 import java.util.List;
-import java.util.Set;
 
 public class Day16 {
 
@@ -87,7 +85,7 @@ public class Day16 {
             return;
         }
         Vector currentSquare = new Vector(x, y, direction.x, direction.y);
-        boolean containsCurrentSquare = energizedVectors.stream().anyMatch(location -> location.equals(currentSquare));
+        boolean containsCurrentSquare = energizedVectors.contains(currentSquare);
         if (containsCurrentSquare) {
             return;
         } else {
@@ -139,7 +137,7 @@ public class Day16 {
         }
     }
 
-    private class Vector {
+    private static class Vector {
 
         int x;
         int y;
@@ -153,11 +151,17 @@ public class Day16 {
             this.yDirection = yDirection;
         }
 
-        public boolean equals(Vector vector) {
-            return vector.x == this.x
-                    && vector.y == this.y
-                    && vector.xDirection == this.xDirection
-                    && vector.yDirection == this.yDirection;
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            Vector vector = (Vector) o;
+            return x == vector.x && y == vector.y && xDirection == vector.xDirection && yDirection == vector.yDirection;
+        }
+
+        @Override
+        public int hashCode() {
+            return Objects.hash(x, y, xDirection, yDirection);
         }
     }
 }
