@@ -89,7 +89,21 @@ public class Day7 {
     }
 
     private int getHandTypeWithJokers(String hand) {
-        return 0;
+
+        int highestHandType = 1;
+
+        if (!hand.contains("J")) {
+            return getHandType(hand);
+        }
+
+        for (int i=0; i<5; i++) {
+            String jokerHand = hand.replaceAll("J", Character.toString(hand.charAt(i)));
+            int jokerHandType = getHandType(jokerHand);
+            if (jokerHandType > highestHandType) {
+                highestHandType = jokerHandType;
+            }
+        }
+        return highestHandType;
     }
 
     private int getHandType(String hand) {

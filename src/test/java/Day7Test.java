@@ -16,7 +16,7 @@ public class Day7Test {
 
     @Test
     public void Day7Part2() {
-        System.out.println(day7.part2());
+        Assertions.assertEquals(247899149, day7.part2());
     }
 
     @Test
