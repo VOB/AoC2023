@@ -23,32 +23,11 @@ public class Day7Test {
     public void Day7Part1Test() {
         Day7 day7Test = new Day7("src/main/Day7Test");
         Assertions.assertEquals(6440, day7Test.part1());
-
     }
 
     @Test
-    public void verifyHandTypes() {
-        List<String> hands = new ArrayList<>();
-        hands.add("AAAAA");
-        hands.add("AA2AA");
-        hands.add("A33AA");
-        hands.add("A23AA");
-        hands.add("AAKK3");
-        hands.add("AAK53");
-        hands.add("2345K");
-        Assertions.assertEquals(7, day7.getHandType("AAAAA"));
-        Assertions.assertEquals(6, day7.getHandType("AA2AA"));
-        Assertions.assertEquals(6, day7.getHandType("AAAA2"));
-        Assertions.assertEquals(5, day7.getHandType("A33AA"));
-        Assertions.assertEquals(4, day7.getHandType("A23AA"));
-        Assertions.assertEquals(3, day7.getHandType("AAKK3"));
-        Assertions.assertEquals(3, day7.getHandType("3AAKK"));
-        Assertions.assertEquals(2, day7.getHandType("AAK53"));
-        Assertions.assertEquals(2, day7.getHandType("KAA53"));
-        Assertions.assertEquals(2, day7.getHandType("KAA53"));
-        Assertions.assertEquals(2, day7.getHandType("KQAA3"));
-        Assertions.assertEquals(2, day7.getHandType("KQ5AA"));
-        Assertions.assertEquals(1, day7.getHandType("2345K"));
-
+    public void Day7Part2Test() {
+        Day7 day7Test = new Day7("src/main/Day7Test");
+        Assertions.assertEquals(5905, day7Test.part2());
     }
 }
