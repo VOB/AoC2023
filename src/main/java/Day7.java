@@ -1,3 +1,5 @@
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -5,29 +7,51 @@ public class Day7 {
 
     TextParser textParser = new TextParser();
     List<String> input;
+    List<Hand> hands = new ArrayList<>();
 
     public Day7() {
-        input = textParser.lines("src/main/Day7");
+        this("src/main/Day7");
+    }
+
+    public Day7(String path) {
+        input = textParser.lines(path);
+        for (String line : input) {
+            String cards = line.split(" ")[0];
+            int bet = Integer.parseInt(line.split(" ")[1]);
+            hands.add(new Hand(cards, bet, getHandType(cards)));
+        }
     }
 
     public int part1() {
-        LinkedList<String> sortedHandList = new LinkedList<>();
+        LinkedList<Hand> sortedHandList = new LinkedList<>();
 
-        for (String line : input) {
-            insertHandInSortedList(line, sortedHandList);
+        for (Hand hand : hands) {
+            insertHandInSortedList(hand, sortedHandList);
         }
 
         int totalWinnings = 0;
         for (int i=0; i<sortedHandList.size(); i++) {
-            int bet = Integer.parseInt(sortedHandList.get(i).split(" ")[1]);
-            totalWinnings += bet*(i+1);
+            totalWinnings += sortedHandList.get(i).bet*(i+1);
         }
-
         return totalWinnings;
     }
 
     public int part2() {
         return 0;
+    }
+
+    private void insertHandInSortedList(Hand hand, LinkedList<Hand> sortedList) {
+
+        for (int i=0; i<sortedList.size(); i++) {
+            Hand sortedHand = sortedList.get(i);
+
+            if (handComparator(hand, sortedHand) < 1) {
+                sortedList.add(i, hand);
+                return;
+            }
+        }
+        //sortedList is empty
+        sortedList.add(hand);
     }
 
     private LinkedList<String> insertHandInSortedList(String line, LinkedList<String> sortedList) {
@@ -61,6 +85,24 @@ public class Day7 {
             if (cardStrength(hand1.charAt(i)) < cardStrength(hand2.charAt(i))) {
                 return -1;
             } else if (cardStrength(hand1.charAt(i)) > cardStrength(hand2.charAt(i))) {
+                return 1;
+            }
+        }
+        return 0;
+    }
+
+    public int handComparator(Hand hand1, Hand hand2) {
+        if (hand1.handType < hand2.handType) {
+            return -1;
+        }
+        if (hand1.handType > hand2.handType) {
+            return 1;
+        }
+
+        for (int i=0; i<5; i++) {
+            if (cardStrength(hand1.cards.get(i)) < cardStrength(hand2.cards.get(i))) {
+                return -1;
+            } else if (cardStrength(hand1.cards.get(i)) > cardStrength(hand2.cards.get(i))) {
                 return 1;
             }
         }
@@ -163,5 +205,21 @@ public class Day7 {
             case 'A' -> 14;
             default -> 0;
         };
+    }
+
+    private static class Hand {
+        List<Character> cards;
+        int bet;
+        int handType;
+
+        public Hand (String cards, int bet, int handType) {
+            this.cards = new ArrayList<>();
+            for (Character c: cards.toCharArray()) {
+                this.cards.add(c);
+            }
+            this.bet = bet;
+            this.handType = handType;
+        }
+
     }
 }
