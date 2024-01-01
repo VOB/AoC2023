@@ -25,57 +25,91 @@ public class Day12 {
         }
         return sum;
     }
-
     private int getPossibleArrangements(String line, List<Integer> damagedGroups) {
-        int possibleArrangements = 0;
-        while (line.length() > damagedGroups.size()) {
-            possibleArrangements+=getOnePossibleArrangement(line, new ArrayList<>(damagedGroups));
-            line = line.substring(1);
+
+        List<Integer> unknownIndexes = new ArrayList<>();
+        for (int i=0; i<line.length(); i++) {
+            if (line.charAt(i) == '?') {
+                unknownIndexes.add(i);
+            }
         }
+
+        List<List<Integer>> indexCombinations = getUnknownIndexCombinations(unknownIndexes);
+        int possibleArrangements = 0;
+
+        for (List<Integer> indexCombination : indexCombinations) {
+            String forLine = line.replaceAll("\\?", "\\.");
+            for (int index : indexCombination) {
+                forLine = forLine.substring(0, index) + "#" + forLine.substring(index+1);
+            }
+            if (isArrangementPossible(forLine, damagedGroups)) {
+                possibleArrangements++;
+            }
+        }
+
         return possibleArrangements;
     }
 
-    private int getPossibleArrangementsv2(String line, List<Integer> damagedGroups) {
-        List<String> segments = Arrays.asList(line.split("\\."));
-        int possibleArrangements = 0;
+    private List<List<Integer>> getUnknownIndexCombinations(List<Integer> unknownIndexes) {
+        List<List<Integer>> indexCombinations = new ArrayList<>();
 
-
-        while (line.length() > damagedGroups.size()) {
-            possibleArrangements+=getOnePossibleArrangement(line, new ArrayList<>(damagedGroups));
-            line = line.substring(1);
+        List<Boolean> combinationPatterns = new ArrayList<>();
+        for (int i=0; i<unknownIndexes.size();i++) {
+            combinationPatterns.add(false);
         }
 
+        while (combinationPatterns.contains(false)) {
+            indexCombinations.add(createIndexCombination(combinationPatterns, unknownIndexes));
 
-        return possibleArrangements;
+            for (int i=0; i<combinationPatterns.size(); i++) {
+                if (!combinationPatterns.get(i)) {
+                    combinationPatterns.set(i, true);
+                    break;
+                } else {
+                    combinationPatterns.set(i, false);
+                }
+            }
+        }
+
+        //All ? is # (not created in while loop)
+        indexCombinations.add(unknownIndexes);
+
+
+        return indexCombinations;
     }
 
-    private int getOnePossibleArrangement(String line, List<Integer> damagedGroups) {
+    private List<Integer> createIndexCombination(List<Boolean> combinationPatterns, List<Integer> unknownIndexes) {
+        ArrayList<Integer> indexes = new ArrayList<>();
+        for (int i=0; i<unknownIndexes.size(); i++) {
+            if (combinationPatterns.get(i)) {
+                indexes.add(unknownIndexes.get(i));
+            }
+        }
+        return indexes;
+    }
+
+    public boolean isArrangementPossible(String line, List<Integer> damagedGroups) {
+        if (!line.contains("#")) {
+            return false;
+        }
+
+        while (line.contains("..")) {
+            line = line.replaceAll("\\.\\.", "\\.");
+        }
 
         while (line.charAt(0) == '.') {
             line = line.substring(1);
         }
 
-        int minimumLength = damagedGroups.size()-1;
-        for (int damaged : damagedGroups) {
-            minimumLength+= damaged;
+        while (line.charAt(line.length()-1) == '.') {
+            line = line.substring(0, line.length()-1);
         }
 
-        if (line.length() < minimumLength) {
-            return 0;
-        }
+        List<String> lineList = Arrays.asList(line.split("\\."));
 
-        int damagedGroup = damagedGroups.get(0);
-        for (int i=0; i<damagedGroup; i++) {
-            if (line.charAt(i) == '.') {
-                return getOnePossibleArrangement(line.substring(i), damagedGroups);
-            }
-        }
-        damagedGroups.remove(0);
-        if (damagedGroups.isEmpty()) {
-            return 1;
-        }
+        List<Integer> parsedLine = lineList.stream().map(String::length).toList();
 
-        return getOnePossibleArrangement(line.substring(damagedGroup+1), damagedGroups);
+        return parsedLine.equals(damagedGroups);
     }
 
     public int part2() {
