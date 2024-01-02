@@ -20,13 +20,12 @@ public class TextParser {
 
     public char[][] linesAsCharArray(String textfile) {
         List<String> lines = lines(textfile);
-        char[][] input = new char[lines.get(0).length()][lines.size()];
+        char[][] input = new char[lines.size()][lines.get(0).length()];
         for (int i=0; i<lines.size(); i++) {
             input[i] = lines.get(i).toCharArray();
         }
         return input;
     }
-
     public List<List<String>> blocks(String textfile) {
         Path filePath = Path.of(textfile);
         String results = "";

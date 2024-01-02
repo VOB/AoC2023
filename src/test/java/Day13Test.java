@@ -1,3 +1,4 @@
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 public class Day13Test {
@@ -6,11 +7,17 @@ public class Day13Test {
 
     @Test
     public void Day13Part1() {
-        System.out.println(day13.part1());
+        Assertions.assertEquals(33975, day13.part1());
     }
 
     @Test
     public void Day13Part2() {
         System.out.println(day13.part2());
+    }
+
+    @Test
+    public void Day13Part1Test() {
+        Day13 day13Test = new Day13("src/main/Day13Test");
+        Assertions.assertEquals(405, day13Test.part1());
     }
 }
