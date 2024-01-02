@@ -20,4 +20,10 @@ public class Day13Test {
         Day13 day13Test = new Day13("src/main/Day13Test");
         Assertions.assertEquals(405, day13Test.part1());
     }
+
+    @Test
+    public void Day13Part2Test() {
+        Day13 day13Test = new Day13("src/main/Day13Test");
+        Assertions.assertEquals(400, day13Test.part2());
+    }
 }

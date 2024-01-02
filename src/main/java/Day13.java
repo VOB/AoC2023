@@ -30,22 +30,26 @@ public class Day13 {
         return sum;
     }
 
+    public int part2() {
+        return 0;
+    }
+
     public int horizontalReflection(char[][] pattern) {
-        return 100*getReflectionValue(pattern);
+        return 100*getReflectionValue(pattern, 0);
     }
 
     public int verticalReflection(char[][] pattern) {
         char[][] transposed = transpose(pattern);
-        return getReflectionValue(transposed);
+        return getReflectionValue(transposed, 0);
     }
 
-    private int getReflectionValue(char[][] pattern) {
+    private int getReflectionValue(char[][] pattern, int tolerance) {
         for (int i = pattern.length-1; i>0; i--) {
             char[] first = pattern[i];
             char[] second = pattern[i-1];
 
             if(Arrays.equals(first, second)) {
-                if (verifyReflection(pattern, i, i-1)) {
+                if (verifyReflection(pattern, i, i-1, tolerance)) {
                     return i;
                 }
             }
@@ -53,14 +57,24 @@ public class Day13 {
         return 0;
     }
 
-    private boolean verifyReflection(char[][] pattern, int high, int low) {
+    private boolean verifyReflection(char[][] pattern, int high, int low, int tolerance) {
+        if (tolerance < 0) {
+            return false;
+        }
         if (high > pattern.length-1 || low < 0) {
             return true;
         }
         if (Arrays.equals(pattern[high], pattern[low])) {
-            return verifyReflection(pattern, high+1, low-1);
+            return verifyReflection(pattern, high+1, low-1, tolerance);
+        } else {
+            int diff = 0;
+            for (int i=0; i<pattern[high].length; i++) {
+                if (pattern[high][i] == pattern[low][i]) {
+                    diff++;
+                }
+            }
+            return verifyReflection(pattern, high+1, low-1, tolerance-diff);
         }
-        return false;
     }
 
     public char[][] transpose(char[][] array) {
@@ -79,9 +93,5 @@ public class Day13 {
             }
         }
         return array_new;
-    }
-
-    public int part2() {
-        return 0;
     }
 }
