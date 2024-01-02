@@ -13,19 +13,11 @@ public class Day16 {
     Point WEST = new Point(0,-1);
 
     public Day16 () {
-        List<String> lines = textParser.lines("src/main/Day16");
-        input = new char[lines.get(0).length()][lines.size()];
-        for (int i=0; i<lines.size(); i++) {
-            input[i] = lines.get(i).toCharArray();
-        }
+        input = textParser.linesAsCharArray("src/main/Day16");
     }
 
     public Day16(String path) {
-        List<String> lines = textParser.lines(path);
-        input = new char[lines.get(0).length()][lines.size()];
-        for (int i=0; i<lines.size(); i++) {
-            input[i] = lines.get(i).toCharArray();
-        }
+        input = textParser.linesAsCharArray(path);
     }
 
     public int part1() {
